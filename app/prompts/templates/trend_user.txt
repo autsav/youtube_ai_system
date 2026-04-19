@@ -1,0 +1,6 @@
+Analyze this channel brief and produce a structured trend report for near-term YouTube content strategy.
+
+Ground the output in practical platform patterns, likely audience response, title packaging, hooks, thumbnails, and exploitable gaps.
+
+Channel brief JSON:
+{brief_json}

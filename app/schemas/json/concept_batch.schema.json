@@ -1,0 +1,75 @@
+{
+  "$defs": {
+    "VideoConcept": {
+      "properties": {
+        "concept_id": {
+          "title": "Concept Id",
+          "type": "string"
+        },
+        "format": {
+          "title": "Format",
+          "type": "string"
+        },
+        "title_options": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 5,
+          "minItems": 3,
+          "title": "Title Options",
+          "type": "array"
+        },
+        "premise": {
+          "title": "Premise",
+          "type": "string"
+        },
+        "hook_script": {
+          "title": "Hook Script",
+          "type": "string"
+        },
+        "thumbnail_seed": {
+          "title": "Thumbnail Seed",
+          "type": "string"
+        },
+        "predicted_ctr_range": {
+          "title": "Predicted Ctr Range",
+          "type": "string"
+        },
+        "predicted_avd_range": {
+          "title": "Predicted Avd Range",
+          "type": "string"
+        },
+        "why_it_should_work": {
+          "title": "Why It Should Work",
+          "type": "string"
+        }
+      },
+      "required": [
+        "concept_id",
+        "format",
+        "title_options",
+        "premise",
+        "hook_script",
+        "thumbnail_seed",
+        "predicted_ctr_range",
+        "predicted_avd_range",
+        "why_it_should_work"
+      ],
+      "title": "VideoConcept",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "concepts": {
+      "items": {
+        "$ref": "#/$defs/VideoConcept"
+      },
+      "maxItems": 5,
+      "minItems": 5,
+      "title": "Concepts",
+      "type": "array"
+    }
+  },
+  "title": "ConceptBatch",
+  "type": "object"
+}

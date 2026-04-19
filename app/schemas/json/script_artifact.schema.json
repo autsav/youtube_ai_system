@@ -1,0 +1,217 @@
+{
+  "$defs": {
+    "MidVideoHook": {
+      "properties": {
+        "time_sec": {
+          "minimum": 0,
+          "title": "Time Sec",
+          "type": "integer"
+        },
+        "line": {
+          "title": "Line",
+          "type": "string"
+        },
+        "purpose": {
+          "title": "Purpose",
+          "type": "string"
+        }
+      },
+      "required": [
+        "time_sec",
+        "line",
+        "purpose"
+      ],
+      "title": "MidVideoHook",
+      "type": "object"
+    },
+    "ScriptCTA": {
+      "properties": {
+        "time_sec": {
+          "minimum": 0,
+          "title": "Time Sec",
+          "type": "integer"
+        },
+        "line": {
+          "title": "Line",
+          "type": "string"
+        },
+        "goal": {
+          "title": "Goal",
+          "type": "string"
+        }
+      },
+      "required": [
+        "time_sec",
+        "line",
+        "goal"
+      ],
+      "title": "ScriptCTA",
+      "type": "object"
+    },
+    "ScriptHook": {
+      "properties": {
+        "start_sec": {
+          "minimum": 0,
+          "title": "Start Sec",
+          "type": "integer"
+        },
+        "end_sec": {
+          "exclusiveMinimum": 0,
+          "title": "End Sec",
+          "type": "integer"
+        },
+        "spoken_words": {
+          "title": "Spoken Words",
+          "type": "string"
+        },
+        "hook_type": {
+          "title": "Hook Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "start_sec",
+        "end_sec",
+        "spoken_words",
+        "hook_type"
+      ],
+      "title": "ScriptHook",
+      "type": "object"
+    },
+    "ScriptRetentionSummary": {
+      "properties": {
+        "opening_strategy": {
+          "title": "Opening Strategy",
+          "type": "string"
+        },
+        "reengagement_points": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reengagement Points",
+          "type": "array"
+        },
+        "payoff_strategy": {
+          "title": "Payoff Strategy",
+          "type": "string"
+        }
+      },
+      "required": [
+        "opening_strategy",
+        "payoff_strategy"
+      ],
+      "title": "ScriptRetentionSummary",
+      "type": "object"
+    },
+    "ScriptSegment": {
+      "properties": {
+        "segment_id": {
+          "title": "Segment Id",
+          "type": "string"
+        },
+        "start_sec": {
+          "minimum": 0,
+          "title": "Start Sec",
+          "type": "integer"
+        },
+        "end_sec": {
+          "exclusiveMinimum": 0,
+          "title": "End Sec",
+          "type": "integer"
+        },
+        "purpose": {
+          "title": "Purpose",
+          "type": "string"
+        },
+        "spoken_script": {
+          "title": "Spoken Script",
+          "type": "string"
+        },
+        "retention_device": {
+          "title": "Retention Device",
+          "type": "string"
+        },
+        "emotion": {
+          "title": "Emotion",
+          "type": "string"
+        },
+        "visual_intent": {
+          "title": "Visual Intent",
+          "type": "string"
+        },
+        "drop_risk": {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "title": "Drop Risk",
+          "type": "string"
+        },
+        "why_viewer_stays": {
+          "title": "Why Viewer Stays",
+          "type": "string"
+        }
+      },
+      "required": [
+        "segment_id",
+        "start_sec",
+        "end_sec",
+        "purpose",
+        "spoken_script",
+        "retention_device",
+        "emotion",
+        "visual_intent",
+        "drop_risk",
+        "why_viewer_stays"
+      ],
+      "title": "ScriptSegment",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "video_title": {
+      "title": "Video Title",
+      "type": "string"
+    },
+    "target_length_min": {
+      "maximum": 180,
+      "minimum": 1,
+      "title": "Target Length Min",
+      "type": "integer"
+    },
+    "hook": {
+      "$ref": "#/$defs/ScriptHook"
+    },
+    "segments": {
+      "items": {
+        "$ref": "#/$defs/ScriptSegment"
+      },
+      "minItems": 1,
+      "title": "Segments",
+      "type": "array"
+    },
+    "mid_video_hooks": {
+      "items": {
+        "$ref": "#/$defs/MidVideoHook"
+      },
+      "title": "Mid Video Hooks",
+      "type": "array"
+    },
+    "cta": {
+      "$ref": "#/$defs/ScriptCTA"
+    },
+    "retention_summary": {
+      "$ref": "#/$defs/ScriptRetentionSummary"
+    }
+  },
+  "required": [
+    "video_title",
+    "target_length_min",
+    "hook",
+    "cta",
+    "retention_summary"
+  ],
+  "title": "ScriptArtifact",
+  "type": "object"
+}

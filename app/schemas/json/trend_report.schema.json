@@ -1,0 +1,62 @@
+{
+  "properties": {
+    "winning_formats": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Winning Formats",
+      "type": "array"
+    },
+    "declining_formats": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Declining Formats",
+      "type": "array"
+    },
+    "hook_patterns": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Hook Patterns",
+      "type": "array"
+    },
+    "thumbnail_patterns": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Thumbnail Patterns",
+      "type": "array"
+    },
+    "content_gaps": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Content Gaps",
+      "type": "array"
+    },
+    "exploit_list": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Exploit List",
+      "type": "array"
+    },
+    "avoid_list": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Avoid List",
+      "type": "array"
+    },
+    "opportunity_map": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Opportunity Map",
+      "type": "array"
+    }
+  },
+  "title": "TrendReport",
+  "type": "object"
+}

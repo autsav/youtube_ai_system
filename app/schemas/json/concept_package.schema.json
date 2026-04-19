@@ -1,0 +1,674 @@
+{
+  "$defs": {
+    "AssetPreferences": {
+      "properties": {
+        "stock_sites": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Stock Sites",
+          "type": "array"
+        },
+        "ai_video_tool": {
+          "default": "Kling 3.0",
+          "title": "Ai Video Tool",
+          "type": "string"
+        },
+        "editor": {
+          "default": "Premiere Pro",
+          "title": "Editor",
+          "type": "string"
+        }
+      },
+      "title": "AssetPreferences",
+      "type": "object"
+    },
+    "ChannelBrief": {
+      "properties": {
+        "channel_name": {
+          "title": "Channel Name",
+          "type": "string"
+        },
+        "niche": {
+          "title": "Niche",
+          "type": "string"
+        },
+        "target_audience": {
+          "title": "Target Audience",
+          "type": "string"
+        },
+        "tone": {
+          "title": "Tone",
+          "type": "string"
+        },
+        "target_length_min": {
+          "maximum": 180,
+          "minimum": 1,
+          "title": "Target Length Min",
+          "type": "integer"
+        },
+        "brand_colors": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Brand Colors",
+          "type": "array"
+        },
+        "format_preferences": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Format Preferences",
+          "type": "array"
+        },
+        "visual_style": {
+          "title": "Visual Style",
+          "type": "string"
+        },
+        "cta_goal": {
+          "title": "Cta Goal",
+          "type": "string"
+        },
+        "asset_preferences": {
+          "$ref": "#/$defs/AssetPreferences"
+        }
+      },
+      "required": [
+        "channel_name",
+        "niche",
+        "target_audience",
+        "tone",
+        "target_length_min",
+        "visual_style",
+        "cta_goal",
+        "asset_preferences"
+      ],
+      "title": "ChannelBrief",
+      "type": "object"
+    },
+    "ConceptBatch": {
+      "properties": {
+        "concepts": {
+          "items": {
+            "$ref": "#/$defs/VideoConcept"
+          },
+          "maxItems": 5,
+          "minItems": 5,
+          "title": "Concepts",
+          "type": "array"
+        }
+      },
+      "title": "ConceptBatch",
+      "type": "object"
+    },
+    "ConceptScoreReport": {
+      "properties": {
+        "concept_id": {
+          "title": "Concept Id",
+          "type": "string"
+        },
+        "components": {
+          "additionalProperties": {
+            "$ref": "#/$defs/ScoreComponent"
+          },
+          "title": "Components",
+          "type": "object"
+        },
+        "total_score": {
+          "minimum": 0.0,
+          "title": "Total Score",
+          "type": "number"
+        }
+      },
+      "required": [
+        "concept_id",
+        "total_score"
+      ],
+      "title": "ConceptScoreReport",
+      "type": "object"
+    },
+    "MidVideoHook": {
+      "properties": {
+        "time_sec": {
+          "minimum": 0,
+          "title": "Time Sec",
+          "type": "integer"
+        },
+        "line": {
+          "title": "Line",
+          "type": "string"
+        },
+        "purpose": {
+          "title": "Purpose",
+          "type": "string"
+        }
+      },
+      "required": [
+        "time_sec",
+        "line",
+        "purpose"
+      ],
+      "title": "MidVideoHook",
+      "type": "object"
+    },
+    "SFXCue": {
+      "properties": {
+        "time_sec": {
+          "minimum": 0,
+          "title": "Time Sec",
+          "type": "integer"
+        },
+        "cue": {
+          "title": "Cue",
+          "type": "string"
+        },
+        "purpose": {
+          "title": "Purpose",
+          "type": "string"
+        }
+      },
+      "required": [
+        "time_sec",
+        "cue",
+        "purpose"
+      ],
+      "title": "SFXCue",
+      "type": "object"
+    },
+    "ScoreComponent": {
+      "properties": {
+        "raw_score": {
+          "maximum": 10.0,
+          "minimum": 0.0,
+          "title": "Raw Score",
+          "type": "number"
+        },
+        "weight": {
+          "minimum": 0.0,
+          "title": "Weight",
+          "type": "number"
+        },
+        "weighted_score": {
+          "minimum": 0.0,
+          "title": "Weighted Score",
+          "type": "number"
+        }
+      },
+      "required": [
+        "raw_score",
+        "weight",
+        "weighted_score"
+      ],
+      "title": "ScoreComponent",
+      "type": "object"
+    },
+    "ScriptArtifact": {
+      "properties": {
+        "video_title": {
+          "title": "Video Title",
+          "type": "string"
+        },
+        "target_length_min": {
+          "maximum": 180,
+          "minimum": 1,
+          "title": "Target Length Min",
+          "type": "integer"
+        },
+        "hook": {
+          "$ref": "#/$defs/ScriptHook"
+        },
+        "segments": {
+          "items": {
+            "$ref": "#/$defs/ScriptSegment"
+          },
+          "minItems": 1,
+          "title": "Segments",
+          "type": "array"
+        },
+        "mid_video_hooks": {
+          "items": {
+            "$ref": "#/$defs/MidVideoHook"
+          },
+          "title": "Mid Video Hooks",
+          "type": "array"
+        },
+        "cta": {
+          "$ref": "#/$defs/ScriptCTA"
+        },
+        "retention_summary": {
+          "$ref": "#/$defs/ScriptRetentionSummary"
+        }
+      },
+      "required": [
+        "video_title",
+        "target_length_min",
+        "hook",
+        "cta",
+        "retention_summary"
+      ],
+      "title": "ScriptArtifact",
+      "type": "object"
+    },
+    "ScriptCTA": {
+      "properties": {
+        "time_sec": {
+          "minimum": 0,
+          "title": "Time Sec",
+          "type": "integer"
+        },
+        "line": {
+          "title": "Line",
+          "type": "string"
+        },
+        "goal": {
+          "title": "Goal",
+          "type": "string"
+        }
+      },
+      "required": [
+        "time_sec",
+        "line",
+        "goal"
+      ],
+      "title": "ScriptCTA",
+      "type": "object"
+    },
+    "ScriptHook": {
+      "properties": {
+        "start_sec": {
+          "minimum": 0,
+          "title": "Start Sec",
+          "type": "integer"
+        },
+        "end_sec": {
+          "exclusiveMinimum": 0,
+          "title": "End Sec",
+          "type": "integer"
+        },
+        "spoken_words": {
+          "title": "Spoken Words",
+          "type": "string"
+        },
+        "hook_type": {
+          "title": "Hook Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "start_sec",
+        "end_sec",
+        "spoken_words",
+        "hook_type"
+      ],
+      "title": "ScriptHook",
+      "type": "object"
+    },
+    "ScriptRetentionSummary": {
+      "properties": {
+        "opening_strategy": {
+          "title": "Opening Strategy",
+          "type": "string"
+        },
+        "reengagement_points": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reengagement Points",
+          "type": "array"
+        },
+        "payoff_strategy": {
+          "title": "Payoff Strategy",
+          "type": "string"
+        }
+      },
+      "required": [
+        "opening_strategy",
+        "payoff_strategy"
+      ],
+      "title": "ScriptRetentionSummary",
+      "type": "object"
+    },
+    "ScriptSegment": {
+      "properties": {
+        "segment_id": {
+          "title": "Segment Id",
+          "type": "string"
+        },
+        "start_sec": {
+          "minimum": 0,
+          "title": "Start Sec",
+          "type": "integer"
+        },
+        "end_sec": {
+          "exclusiveMinimum": 0,
+          "title": "End Sec",
+          "type": "integer"
+        },
+        "purpose": {
+          "title": "Purpose",
+          "type": "string"
+        },
+        "spoken_script": {
+          "title": "Spoken Script",
+          "type": "string"
+        },
+        "retention_device": {
+          "title": "Retention Device",
+          "type": "string"
+        },
+        "emotion": {
+          "title": "Emotion",
+          "type": "string"
+        },
+        "visual_intent": {
+          "title": "Visual Intent",
+          "type": "string"
+        },
+        "drop_risk": {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "title": "Drop Risk",
+          "type": "string"
+        },
+        "why_viewer_stays": {
+          "title": "Why Viewer Stays",
+          "type": "string"
+        }
+      },
+      "required": [
+        "segment_id",
+        "start_sec",
+        "end_sec",
+        "purpose",
+        "spoken_script",
+        "retention_device",
+        "emotion",
+        "visual_intent",
+        "drop_risk",
+        "why_viewer_stays"
+      ],
+      "title": "ScriptSegment",
+      "type": "object"
+    },
+    "SelectedConcept": {
+      "properties": {
+        "winner_id": {
+          "title": "Winner Id",
+          "type": "string"
+        },
+        "winner": {
+          "$ref": "#/$defs/VideoConcept"
+        },
+        "weights": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Weights",
+          "type": "object"
+        },
+        "score_breakdown": {
+          "additionalProperties": {
+            "$ref": "#/$defs/ConceptScoreReport"
+          },
+          "title": "Score Breakdown",
+          "type": "object"
+        },
+        "scores": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Scores",
+          "type": "object"
+        },
+        "winner_reason": {
+          "title": "Winner Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "winner_id",
+        "winner",
+        "winner_reason"
+      ],
+      "title": "SelectedConcept",
+      "type": "object"
+    },
+    "TrendReport": {
+      "properties": {
+        "winning_formats": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Winning Formats",
+          "type": "array"
+        },
+        "declining_formats": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Declining Formats",
+          "type": "array"
+        },
+        "hook_patterns": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Hook Patterns",
+          "type": "array"
+        },
+        "thumbnail_patterns": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Thumbnail Patterns",
+          "type": "array"
+        },
+        "content_gaps": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Content Gaps",
+          "type": "array"
+        },
+        "exploit_list": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Exploit List",
+          "type": "array"
+        },
+        "avoid_list": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Avoid List",
+          "type": "array"
+        },
+        "opportunity_map": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Opportunity Map",
+          "type": "array"
+        }
+      },
+      "title": "TrendReport",
+      "type": "object"
+    },
+    "VideoConcept": {
+      "properties": {
+        "concept_id": {
+          "title": "Concept Id",
+          "type": "string"
+        },
+        "format": {
+          "title": "Format",
+          "type": "string"
+        },
+        "title_options": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 5,
+          "minItems": 3,
+          "title": "Title Options",
+          "type": "array"
+        },
+        "premise": {
+          "title": "Premise",
+          "type": "string"
+        },
+        "hook_script": {
+          "title": "Hook Script",
+          "type": "string"
+        },
+        "thumbnail_seed": {
+          "title": "Thumbnail Seed",
+          "type": "string"
+        },
+        "predicted_ctr_range": {
+          "title": "Predicted Ctr Range",
+          "type": "string"
+        },
+        "predicted_avd_range": {
+          "title": "Predicted Avd Range",
+          "type": "string"
+        },
+        "why_it_should_work": {
+          "title": "Why It Should Work",
+          "type": "string"
+        }
+      },
+      "required": [
+        "concept_id",
+        "format",
+        "title_options",
+        "premise",
+        "hook_script",
+        "thumbnail_seed",
+        "predicted_ctr_range",
+        "predicted_avd_range",
+        "why_it_should_work"
+      ],
+      "title": "VideoConcept",
+      "type": "object"
+    },
+    "VoiceoverArtifact": {
+      "properties": {
+        "voice_style": {
+          "title": "Voice Style",
+          "type": "string"
+        },
+        "music_direction": {
+          "title": "Music Direction",
+          "type": "string"
+        },
+        "sfx_cues": {
+          "items": {
+            "$ref": "#/$defs/SFXCue"
+          },
+          "title": "Sfx Cues",
+          "type": "array"
+        },
+        "voiceover_segments": {
+          "items": {
+            "$ref": "#/$defs/VoiceoverSegment"
+          },
+          "title": "Voiceover Segments",
+          "type": "array"
+        }
+      },
+      "required": [
+        "voice_style",
+        "music_direction"
+      ],
+      "title": "VoiceoverArtifact",
+      "type": "object"
+    },
+    "VoiceoverSegment": {
+      "properties": {
+        "segment_id": {
+          "title": "Segment Id",
+          "type": "string"
+        },
+        "vo_text": {
+          "title": "Vo Text",
+          "type": "string"
+        },
+        "emotion": {
+          "title": "Emotion",
+          "type": "string"
+        },
+        "pace": {
+          "title": "Pace",
+          "type": "string"
+        },
+        "emphasis_words": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Emphasis Words",
+          "type": "array"
+        },
+        "breath_points": {
+          "items": {
+            "type": "integer"
+          },
+          "title": "Breath Points",
+          "type": "array"
+        },
+        "timing_notes": {
+          "title": "Timing Notes",
+          "type": "string"
+        }
+      },
+      "required": [
+        "segment_id",
+        "vo_text",
+        "emotion",
+        "pace",
+        "timing_notes"
+      ],
+      "title": "VoiceoverSegment",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "project_name": {
+      "title": "Project Name",
+      "type": "string"
+    },
+    "brief": {
+      "$ref": "#/$defs/ChannelBrief"
+    },
+    "trends": {
+      "$ref": "#/$defs/TrendReport"
+    },
+    "concepts": {
+      "$ref": "#/$defs/ConceptBatch"
+    },
+    "selected_concept": {
+      "$ref": "#/$defs/SelectedConcept"
+    },
+    "script": {
+      "$ref": "#/$defs/ScriptArtifact"
+    },
+    "voiceover": {
+      "$ref": "#/$defs/VoiceoverArtifact"
+    }
+  },
+  "required": [
+    "project_name",
+    "brief",
+    "trends",
+    "concepts",
+    "selected_concept",
+    "script",
+    "voiceover"
+  ],
+  "title": "ConceptPackage",
+  "type": "object"
+}

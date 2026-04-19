@@ -1,0 +1,88 @@
+{
+  "$defs": {
+    "AssetPreferences": {
+      "properties": {
+        "stock_sites": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Stock Sites",
+          "type": "array"
+        },
+        "ai_video_tool": {
+          "default": "Kling 3.0",
+          "title": "Ai Video Tool",
+          "type": "string"
+        },
+        "editor": {
+          "default": "Premiere Pro",
+          "title": "Editor",
+          "type": "string"
+        }
+      },
+      "title": "AssetPreferences",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "channel_name": {
+      "title": "Channel Name",
+      "type": "string"
+    },
+    "niche": {
+      "title": "Niche",
+      "type": "string"
+    },
+    "target_audience": {
+      "title": "Target Audience",
+      "type": "string"
+    },
+    "tone": {
+      "title": "Tone",
+      "type": "string"
+    },
+    "target_length_min": {
+      "maximum": 180,
+      "minimum": 1,
+      "title": "Target Length Min",
+      "type": "integer"
+    },
+    "brand_colors": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Brand Colors",
+      "type": "array"
+    },
+    "format_preferences": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Format Preferences",
+      "type": "array"
+    },
+    "visual_style": {
+      "title": "Visual Style",
+      "type": "string"
+    },
+    "cta_goal": {
+      "title": "Cta Goal",
+      "type": "string"
+    },
+    "asset_preferences": {
+      "$ref": "#/$defs/AssetPreferences"
+    }
+  },
+  "required": [
+    "channel_name",
+    "niche",
+    "target_audience",
+    "tone",
+    "target_length_min",
+    "visual_style",
+    "cta_goal",
+    "asset_preferences"
+  ],
+  "title": "ChannelBrief",
+  "type": "object"
+}

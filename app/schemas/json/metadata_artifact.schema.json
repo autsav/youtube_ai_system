@@ -1,0 +1,52 @@
+{
+  "$defs": {
+    "Chapter": {
+      "properties": {
+        "time": {
+          "title": "Time",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        }
+      },
+      "required": [
+        "time",
+        "label"
+      ],
+      "title": "Chapter",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "final_title": {
+      "title": "Final Title",
+      "type": "string"
+    },
+    "description": {
+      "title": "Description",
+      "type": "string"
+    },
+    "tags": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Tags",
+      "type": "array"
+    },
+    "chapters": {
+      "items": {
+        "$ref": "#/$defs/Chapter"
+      },
+      "title": "Chapters",
+      "type": "array"
+    }
+  },
+  "required": [
+    "final_title",
+    "description"
+  ],
+  "title": "MetadataArtifact",
+  "type": "object"
+}

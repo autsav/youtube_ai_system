@@ -1,0 +1,60 @@
+{
+  "$defs": {
+    "ThumbnailVariant": {
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "visual": {
+          "title": "Visual",
+          "type": "string"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "emotion": {
+          "title": "Emotion",
+          "type": "string"
+        },
+        "predicted_ctr": {
+          "title": "Predicted Ctr",
+          "type": "string"
+        },
+        "psychological_angle": {
+          "title": "Psychological Angle",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "visual",
+        "text",
+        "emotion",
+        "predicted_ctr",
+        "psychological_angle"
+      ],
+      "title": "ThumbnailVariant",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "thumbnail_variants": {
+      "items": {
+        "$ref": "#/$defs/ThumbnailVariant"
+      },
+      "title": "Thumbnail Variants",
+      "type": "array"
+    },
+    "test_order": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Test Order",
+      "type": "array"
+    }
+  },
+  "title": "ThumbnailArtifact",
+  "type": "object"
+}

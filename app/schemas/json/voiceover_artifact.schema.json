@@ -1,0 +1,105 @@
+{
+  "$defs": {
+    "SFXCue": {
+      "properties": {
+        "time_sec": {
+          "minimum": 0,
+          "title": "Time Sec",
+          "type": "integer"
+        },
+        "cue": {
+          "title": "Cue",
+          "type": "string"
+        },
+        "purpose": {
+          "title": "Purpose",
+          "type": "string"
+        }
+      },
+      "required": [
+        "time_sec",
+        "cue",
+        "purpose"
+      ],
+      "title": "SFXCue",
+      "type": "object"
+    },
+    "VoiceoverSegment": {
+      "properties": {
+        "segment_id": {
+          "title": "Segment Id",
+          "type": "string"
+        },
+        "vo_text": {
+          "title": "Vo Text",
+          "type": "string"
+        },
+        "emotion": {
+          "title": "Emotion",
+          "type": "string"
+        },
+        "pace": {
+          "title": "Pace",
+          "type": "string"
+        },
+        "emphasis_words": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Emphasis Words",
+          "type": "array"
+        },
+        "breath_points": {
+          "items": {
+            "type": "integer"
+          },
+          "title": "Breath Points",
+          "type": "array"
+        },
+        "timing_notes": {
+          "title": "Timing Notes",
+          "type": "string"
+        }
+      },
+      "required": [
+        "segment_id",
+        "vo_text",
+        "emotion",
+        "pace",
+        "timing_notes"
+      ],
+      "title": "VoiceoverSegment",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "voice_style": {
+      "title": "Voice Style",
+      "type": "string"
+    },
+    "music_direction": {
+      "title": "Music Direction",
+      "type": "string"
+    },
+    "sfx_cues": {
+      "items": {
+        "$ref": "#/$defs/SFXCue"
+      },
+      "title": "Sfx Cues",
+      "type": "array"
+    },
+    "voiceover_segments": {
+      "items": {
+        "$ref": "#/$defs/VoiceoverSegment"
+      },
+      "title": "Voiceover Segments",
+      "type": "array"
+    }
+  },
+  "required": [
+    "voice_style",
+    "music_direction"
+  ],
+  "title": "VoiceoverArtifact",
+  "type": "object"
+}

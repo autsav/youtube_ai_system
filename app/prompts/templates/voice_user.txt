@@ -1,0 +1,14 @@
+Using the channel brief and structured script artifact, generate a voiceover-ready script package.
+
+Requirements:
+- preserve structure and segment order from the script package
+- adapt phrasing for natural spoken delivery, not essay prose
+- match style and tone from the channel brief
+- add practical pacing guidance, emphasis words, and breath points
+- include sfx cues and music direction that support retention without overpowering narration
+
+Channel brief JSON:
+{brief_json}
+
+Structured script JSON:
+{script_json}

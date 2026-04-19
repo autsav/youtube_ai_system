@@ -1,0 +1,10 @@
+Using the channel brief and trend report, generate exactly 5 distinct video concepts.
+
+Each concept must have a unique stable `concept_id` in the format `concept_01` through `concept_05`.
+Favor videos with clear payoffs, strong hooks, thumbnail tension, realistic audience fit, and a concise explanation of why each concept should work.
+
+Channel brief JSON:
+{brief_json}
+
+Trend report JSON:
+{trend_json}

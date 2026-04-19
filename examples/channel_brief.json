@@ -1,0 +1,16 @@
+{
+  "channel_name": "Creator Systems Lab",
+  "niche": "AI tools",
+  "target_audience": "tech-savvy freelancers",
+  "tone": "high-energy but analytical",
+  "target_length_min": 10,
+  "brand_colors": ["#00FF66", "#000000"],
+  "format_preferences": ["experiment", "educational", "challenge"],
+  "visual_style": "cinematic tech documentary",
+  "cta_goal": "Subscribe and watch the next workflow breakdown.",
+  "asset_preferences": {
+    "stock_sites": ["Artgrid", "Envato"],
+    "ai_video_tool": "Kling 3.0",
+    "editor": "Premiere Pro"
+  }
+}

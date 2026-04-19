@@ -1,0 +1,17 @@
+Using the channel brief and selected winning concept, generate a structured high-retention YouTube script package.
+
+Requirements:
+- optimize for watch-time, retention, and payoff clarity
+- align with the winner's premise, promise, and audience fit
+- ensure the opening hook is within the first 30 seconds
+- place re-engagement hooks every 60-120 seconds through the body
+- include a direct, specific CTA near the end aligned to the brief goal
+- keep language naturally spoken and creator-like
+
+Return only structured output that matches the schema exactly.
+
+Channel brief JSON:
+{brief_json}
+
+Selected concept JSON:
+{selected_concept_json}

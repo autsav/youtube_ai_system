@@ -1,0 +1,53 @@
+{
+  "$defs": {
+    "KlingJob": {
+      "properties": {
+        "shot_id": {
+          "title": "Shot Id",
+          "type": "string"
+        },
+        "prompt": {
+          "title": "Prompt",
+          "type": "string"
+        },
+        "duration_sec": {
+          "title": "Duration Sec",
+          "type": "number"
+        },
+        "start_frame_guide": {
+          "title": "Start Frame Guide",
+          "type": "string"
+        },
+        "end_frame_guide": {
+          "title": "End Frame Guide",
+          "type": "string"
+        },
+        "audio_suggestion": {
+          "title": "Audio Suggestion",
+          "type": "string"
+        }
+      },
+      "required": [
+        "shot_id",
+        "prompt",
+        "duration_sec",
+        "start_frame_guide",
+        "end_frame_guide",
+        "audio_suggestion"
+      ],
+      "title": "KlingJob",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "kling_jobs": {
+      "items": {
+        "$ref": "#/$defs/KlingJob"
+      },
+      "title": "Kling Jobs",
+      "type": "array"
+    }
+  },
+  "title": "KlingArtifact",
+  "type": "object"
+}

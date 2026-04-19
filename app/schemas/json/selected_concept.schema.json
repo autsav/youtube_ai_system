@@ -1,0 +1,156 @@
+{
+  "$defs": {
+    "ConceptScoreReport": {
+      "properties": {
+        "concept_id": {
+          "title": "Concept Id",
+          "type": "string"
+        },
+        "components": {
+          "additionalProperties": {
+            "$ref": "#/$defs/ScoreComponent"
+          },
+          "title": "Components",
+          "type": "object"
+        },
+        "total_score": {
+          "minimum": 0.0,
+          "title": "Total Score",
+          "type": "number"
+        }
+      },
+      "required": [
+        "concept_id",
+        "total_score"
+      ],
+      "title": "ConceptScoreReport",
+      "type": "object"
+    },
+    "ScoreComponent": {
+      "properties": {
+        "raw_score": {
+          "maximum": 10.0,
+          "minimum": 0.0,
+          "title": "Raw Score",
+          "type": "number"
+        },
+        "weight": {
+          "minimum": 0.0,
+          "title": "Weight",
+          "type": "number"
+        },
+        "weighted_score": {
+          "minimum": 0.0,
+          "title": "Weighted Score",
+          "type": "number"
+        }
+      },
+      "required": [
+        "raw_score",
+        "weight",
+        "weighted_score"
+      ],
+      "title": "ScoreComponent",
+      "type": "object"
+    },
+    "VideoConcept": {
+      "properties": {
+        "concept_id": {
+          "title": "Concept Id",
+          "type": "string"
+        },
+        "format": {
+          "title": "Format",
+          "type": "string"
+        },
+        "title_options": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 5,
+          "minItems": 3,
+          "title": "Title Options",
+          "type": "array"
+        },
+        "premise": {
+          "title": "Premise",
+          "type": "string"
+        },
+        "hook_script": {
+          "title": "Hook Script",
+          "type": "string"
+        },
+        "thumbnail_seed": {
+          "title": "Thumbnail Seed",
+          "type": "string"
+        },
+        "predicted_ctr_range": {
+          "title": "Predicted Ctr Range",
+          "type": "string"
+        },
+        "predicted_avd_range": {
+          "title": "Predicted Avd Range",
+          "type": "string"
+        },
+        "why_it_should_work": {
+          "title": "Why It Should Work",
+          "type": "string"
+        }
+      },
+      "required": [
+        "concept_id",
+        "format",
+        "title_options",
+        "premise",
+        "hook_script",
+        "thumbnail_seed",
+        "predicted_ctr_range",
+        "predicted_avd_range",
+        "why_it_should_work"
+      ],
+      "title": "VideoConcept",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "winner_id": {
+      "title": "Winner Id",
+      "type": "string"
+    },
+    "winner": {
+      "$ref": "#/$defs/VideoConcept"
+    },
+    "weights": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "title": "Weights",
+      "type": "object"
+    },
+    "score_breakdown": {
+      "additionalProperties": {
+        "$ref": "#/$defs/ConceptScoreReport"
+      },
+      "title": "Score Breakdown",
+      "type": "object"
+    },
+    "scores": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "title": "Scores",
+      "type": "object"
+    },
+    "winner_reason": {
+      "title": "Winner Reason",
+      "type": "string"
+    }
+  },
+  "required": [
+    "winner_id",
+    "winner",
+    "winner_reason"
+  ],
+  "title": "SelectedConcept",
+  "type": "object"
+}
