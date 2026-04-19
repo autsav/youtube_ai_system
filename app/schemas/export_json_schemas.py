@@ -16,6 +16,8 @@ from app.schemas.models import (
     PublishPack,
     ScriptVoicePackage,
     FinalPackage,
+    ShotPlanArtifact,
+    ProductionSummaryArtifact,
 )
 from app.utils.io import write_json
 
@@ -35,6 +37,8 @@ SCHEMA_MODELS = {
     "publish_pack": PublishPack,
     "script_voice_package": ScriptVoicePackage,
     "final_package": FinalPackage,
+    "shot_plan_artifact": ShotPlanArtifact,
+    "production_summary_artifact": ProductionSummaryArtifact,
 }
 
 

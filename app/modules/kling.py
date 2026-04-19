@@ -13,7 +13,7 @@ class KlingModule(PipelineModule):
         jobs: list[KlingJob] = []
         for seg in storyboard.segments:
             for shot in seg.shots:
-                if shot.type != "AI_BROLL":
+                if shot.shot_type != "AI_BROLL":
                     continue
                 jobs.append(
                     KlingJob(

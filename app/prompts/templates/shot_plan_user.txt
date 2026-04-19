@@ -1,0 +1,14 @@
+Convert this storyboard into a shot planning package.
+Output JSON only.
+
+Requirements:
+- Provide realistic shot category estimates
+- Organize timeline blocks with pace and visual density
+- Generate specific quick b-roll ideas mapped to segment ids
+- Produce actionable asset requirements tied to shot ids
+
+Channel brief JSON:
+{brief_json}
+
+Storyboard package JSON:
+{storyboard_json}

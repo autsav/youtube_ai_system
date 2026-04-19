@@ -5,8 +5,8 @@ from rich.console import Console
 
 from app.config import settings
 from app.llm.factory import create_llm_client
-from app.schemas.models import ConceptPackage, FinalPackage, ScriptVoicePackage
-from app.modules.voice import VoiceoverModule
+from app.modules.video_prompt import VideoPromptModule
+from app.schemas.models import FinalPackage
 from app.modules.brief import load_brief
 from app.modules.trend import TrendModule
 from app.modules.concept import ConceptModule, SelectorModule
@@ -21,7 +21,7 @@ class PipelineOrchestrator:
     def __init__(self, output_root: Path) -> None:
         self.output_root = output_root
 
-    def run(self, *, brief_path: Path, project_name: str) -> ConceptPackage:
+    def run(self, *, brief_path: Path, project_name: str) -> FinalPackage:
         output_dir = self.output_root / project_name
         ensure_dir(output_dir)
 
@@ -33,7 +33,7 @@ class PipelineOrchestrator:
         concept_module = ConceptModule(llm_client=llm_client)
         selector_module = SelectorModule(llm_client=llm_client)
         script_module = ScriptModule(llm_client=llm_client)
-        voice_module = VoiceoverModule(llm_client=llm_client)
+        video_prompt_module = VideoPromptModule(llm_client=llm_client)
 
         trends = trend_module.run(brief=brief)
         trend_module.save(output_dir, trends)
@@ -55,37 +55,25 @@ class PipelineOrchestrator:
         if script_module.last_llm_artifacts is not None:
             save_llm_stage_artifacts(output_dir, script_module.last_llm_artifacts)
 
-        voiceover = voice_module.run(brief=brief, script=script)
-        voice_module.save(output_dir, voiceover)
-        if voice_module.last_llm_artifacts is not None:
-            save_llm_stage_artifacts(output_dir, voice_module.last_llm_artifacts)
+        video_prompts = video_prompt_module.run(
+            brief=brief,
+            selected_concept=selected,
+            script=script,
+            output_dir=output_dir,
+        )
+        # Also save legacy format for backwards compatibility
+        video_prompt_module.save(output_dir, video_prompts)
+        if video_prompt_module.last_llm_artifacts is not None:
+            save_llm_stage_artifacts(output_dir, video_prompt_module.last_llm_artifacts)
 
         final_package = FinalPackage(
             project_name=project_name,
-            selected_concept=selected,
-            script=script,
-            voiceover=voiceover,
-        )
-        write_json(output_dir / "06_final_package.json", final_package.model_dump(mode="json"))
-
-        script_voice_package = ScriptVoicePackage(
-            project_name=project_name,
-            brief=brief,
-            selected_concept=selected,
-            script=script,
-            voiceover=voiceover,
-        )
-        write_json(output_dir / "07_script_voice_package.json", script_voice_package.model_dump(mode="json"))
-
-        pack = ConceptPackage(
-            project_name=project_name,
-            brief=brief,
-            trends=trends,
+            trend_report=trends,
             concepts=concepts,
             selected_concept=selected,
             script=script,
-            voiceover=voiceover,
+            video_prompts=video_prompts,
         )
-        write_json(output_dir / "08_concept_package.json", pack.model_dump(mode="json"))
+        write_json(output_dir / "final_package.json", final_package.model_dump(mode="json"))
         console.print(f"[bold green]Done[/bold green]. Output written to {output_dir}")
-        return pack
+        return final_package

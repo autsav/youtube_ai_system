@@ -1,5 +1,57 @@
 {
   "$defs": {
+    "AssetRequirement": {
+      "properties": {
+        "asset_id": {
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "related_shot_id": {
+          "title": "Related Shot Id",
+          "type": "string"
+        },
+        "asset_type": {
+          "enum": [
+            "RECORDED_A_ROLL",
+            "RECORDED_B_ROLL",
+            "SCREEN_CAPTURE",
+            "AI_GENERATED",
+            "STOCK_LICENSED",
+            "GRAPHIC_TEMPLATE"
+          ],
+          "title": "Asset Type",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "source_preference": {
+          "title": "Source Preference",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "pending",
+            "in_progress",
+            "ready",
+            "blocked"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "asset_id",
+        "related_shot_id",
+        "asset_type",
+        "description",
+        "source_preference",
+        "status"
+      ],
+      "title": "AssetRequirement",
+      "type": "object"
+    },
     "ConceptScoreReport": {
       "properties": {
         "concept_id": {
@@ -48,6 +100,80 @@
         "purpose"
       ],
       "title": "MidVideoHook",
+      "type": "object"
+    },
+    "ProductionSummaryArtifact": {
+      "properties": {
+        "total_assets": {
+          "minimum": 0,
+          "title": "Total Assets",
+          "type": "integer"
+        },
+        "required_assets": {
+          "minimum": 0,
+          "title": "Required Assets",
+          "type": "integer"
+        },
+        "high_priority_actions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "High Priority Actions",
+          "type": "array"
+        },
+        "production_risks": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Production Risks",
+          "type": "array"
+        }
+      },
+      "required": [
+        "total_assets",
+        "required_assets"
+      ],
+      "title": "ProductionSummaryArtifact",
+      "type": "object"
+    },
+    "QuickBrollIdea": {
+      "properties": {
+        "idea_id": {
+          "title": "Idea Id",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "intended_segment_id": {
+          "title": "Intended Segment Id",
+          "type": "string"
+        },
+        "suggested_asset_type": {
+          "enum": [
+            "B_ROLL",
+            "AI_BROLL",
+            "STOCK",
+            "SCREEN_CAPTURE",
+            "GRAPHIC"
+          ],
+          "title": "Suggested Asset Type",
+          "type": "string"
+        },
+        "why_it_helps": {
+          "title": "Why It Helps",
+          "type": "string"
+        }
+      },
+      "required": [
+        "idea_id",
+        "description",
+        "intended_segment_id",
+        "suggested_asset_type",
+        "why_it_helps"
+      ],
+      "title": "QuickBrollIdea",
       "type": "object"
     },
     "SFXCue": {
@@ -335,6 +461,327 @@
       "title": "SelectedConcept",
       "type": "object"
     },
+    "ShotPlanArtifact": {
+      "properties": {
+        "estimated_total_shots": {
+          "minimum": 0,
+          "title": "Estimated Total Shots",
+          "type": "integer"
+        },
+        "estimated_a_roll_shots": {
+          "minimum": 0,
+          "title": "Estimated A Roll Shots",
+          "type": "integer"
+        },
+        "estimated_b_roll_shots": {
+          "minimum": 0,
+          "title": "Estimated B Roll Shots",
+          "type": "integer"
+        },
+        "estimated_ai_shots": {
+          "minimum": 0,
+          "title": "Estimated Ai Shots",
+          "type": "integer"
+        },
+        "estimated_stock_shots": {
+          "minimum": 0,
+          "title": "Estimated Stock Shots",
+          "type": "integer"
+        },
+        "production_notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Production Notes",
+          "type": "array"
+        },
+        "timeline_blocks": {
+          "items": {
+            "$ref": "#/$defs/TimelineBlock"
+          },
+          "title": "Timeline Blocks",
+          "type": "array"
+        },
+        "quick_broll_ideas": {
+          "items": {
+            "$ref": "#/$defs/QuickBrollIdea"
+          },
+          "title": "Quick Broll Ideas",
+          "type": "array"
+        },
+        "asset_requirements": {
+          "items": {
+            "$ref": "#/$defs/AssetRequirement"
+          },
+          "title": "Asset Requirements",
+          "type": "array"
+        }
+      },
+      "required": [
+        "estimated_total_shots",
+        "estimated_a_roll_shots",
+        "estimated_b_roll_shots",
+        "estimated_ai_shots",
+        "estimated_stock_shots"
+      ],
+      "title": "ShotPlanArtifact",
+      "type": "object"
+    },
+    "StoryboardArtifact": {
+      "properties": {
+        "video_title": {
+          "title": "Video Title",
+          "type": "string"
+        },
+        "style_direction": {
+          "title": "Style Direction",
+          "type": "string"
+        },
+        "editing_rhythm": {
+          "title": "Editing Rhythm",
+          "type": "string"
+        },
+        "energy_map": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Energy Map",
+          "type": "array"
+        },
+        "segments": {
+          "items": {
+            "$ref": "#/$defs/StoryboardSegment"
+          },
+          "minItems": 1,
+          "title": "Segments",
+          "type": "array"
+        }
+      },
+      "required": [
+        "video_title",
+        "style_direction",
+        "editing_rhythm"
+      ],
+      "title": "StoryboardArtifact",
+      "type": "object"
+    },
+    "StoryboardSegment": {
+      "properties": {
+        "segment_id": {
+          "title": "Segment Id",
+          "type": "string"
+        },
+        "start_sec": {
+          "minimum": 0,
+          "title": "Start Sec",
+          "type": "integer"
+        },
+        "end_sec": {
+          "exclusiveMinimum": 0,
+          "title": "End Sec",
+          "type": "integer"
+        },
+        "segment_goal": {
+          "title": "Segment Goal",
+          "type": "string"
+        },
+        "emotional_beat": {
+          "title": "Emotional Beat",
+          "type": "string"
+        },
+        "visual_strategy": {
+          "title": "Visual Strategy",
+          "type": "string"
+        },
+        "attention_reset": {
+          "title": "Attention Reset",
+          "type": "string"
+        },
+        "shots": {
+          "items": {
+            "$ref": "#/$defs/StoryboardShot"
+          },
+          "minItems": 1,
+          "title": "Shots",
+          "type": "array"
+        }
+      },
+      "required": [
+        "segment_id",
+        "start_sec",
+        "end_sec",
+        "segment_goal",
+        "emotional_beat",
+        "visual_strategy",
+        "attention_reset"
+      ],
+      "title": "StoryboardSegment",
+      "type": "object"
+    },
+    "StoryboardShot": {
+      "properties": {
+        "shot_id": {
+          "title": "Shot Id",
+          "type": "string"
+        },
+        "start_sec": {
+          "minimum": 0,
+          "title": "Start Sec",
+          "type": "integer"
+        },
+        "end_sec": {
+          "exclusiveMinimum": 0,
+          "title": "End Sec",
+          "type": "integer"
+        },
+        "duration_sec": {
+          "exclusiveMinimum": 0,
+          "title": "Duration Sec",
+          "type": "number"
+        },
+        "shot_type": {
+          "enum": [
+            "A_ROLL",
+            "B_ROLL",
+            "SCREEN_CAPTURE",
+            "AI_BROLL",
+            "STOCK",
+            "GRAPHIC"
+          ],
+          "title": "Shot Type",
+          "type": "string"
+        },
+        "camera_view": {
+          "title": "Camera View",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "subject": {
+          "title": "Subject",
+          "type": "string"
+        },
+        "location": {
+          "title": "Location",
+          "type": "string"
+        },
+        "motion": {
+          "title": "Motion",
+          "type": "string"
+        },
+        "on_screen_text": {
+          "default": "",
+          "title": "On Screen Text",
+          "type": "string"
+        },
+        "transition_in": {
+          "default": "hard cut",
+          "title": "Transition In",
+          "type": "string"
+        },
+        "transition_out": {
+          "default": "hard cut",
+          "title": "Transition Out",
+          "type": "string"
+        },
+        "sound_design": {
+          "default": "",
+          "title": "Sound Design",
+          "type": "string"
+        },
+        "asset_type": {
+          "enum": [
+            "RECORDED_A_ROLL",
+            "RECORDED_B_ROLL",
+            "SCREEN_CAPTURE",
+            "AI_GENERATED",
+            "STOCK_LICENSED",
+            "GRAPHIC_TEMPLATE"
+          ],
+          "title": "Asset Type",
+          "type": "string"
+        },
+        "priority": {
+          "enum": [
+            "required",
+            "recommended",
+            "optional"
+          ],
+          "title": "Priority",
+          "type": "string"
+        }
+      },
+      "required": [
+        "shot_id",
+        "start_sec",
+        "end_sec",
+        "duration_sec",
+        "shot_type",
+        "camera_view",
+        "description",
+        "subject",
+        "location",
+        "motion",
+        "asset_type",
+        "priority"
+      ],
+      "title": "StoryboardShot",
+      "type": "object"
+    },
+    "TimelineBlock": {
+      "properties": {
+        "block_id": {
+          "title": "Block Id",
+          "type": "string"
+        },
+        "start_sec": {
+          "minimum": 0,
+          "title": "Start Sec",
+          "type": "integer"
+        },
+        "end_sec": {
+          "exclusiveMinimum": 0,
+          "title": "End Sec",
+          "type": "integer"
+        },
+        "purpose": {
+          "title": "Purpose",
+          "type": "string"
+        },
+        "pace": {
+          "title": "Pace",
+          "type": "string"
+        },
+        "visual_density": {
+          "title": "Visual Density",
+          "type": "string"
+        },
+        "primary_assets": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Primary Assets",
+          "type": "array"
+        },
+        "notes": {
+          "title": "Notes",
+          "type": "string"
+        }
+      },
+      "required": [
+        "block_id",
+        "start_sec",
+        "end_sec",
+        "purpose",
+        "pace",
+        "visual_density",
+        "notes"
+      ],
+      "title": "TimelineBlock",
+      "type": "object"
+    },
     "VideoConcept": {
       "properties": {
         "concept_id": {
@@ -486,13 +933,25 @@
     },
     "voiceover": {
       "$ref": "#/$defs/VoiceoverArtifact"
+    },
+    "storyboard": {
+      "$ref": "#/$defs/StoryboardArtifact"
+    },
+    "shot_plan": {
+      "$ref": "#/$defs/ShotPlanArtifact"
+    },
+    "production_summary": {
+      "$ref": "#/$defs/ProductionSummaryArtifact"
     }
   },
   "required": [
     "project_name",
     "selected_concept",
     "script",
-    "voiceover"
+    "voiceover",
+    "storyboard",
+    "shot_plan",
+    "production_summary"
   ],
   "title": "FinalPackage",
   "type": "object"

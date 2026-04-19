@@ -1,0 +1,34 @@
+{
+  "properties": {
+    "total_assets": {
+      "minimum": 0,
+      "title": "Total Assets",
+      "type": "integer"
+    },
+    "required_assets": {
+      "minimum": 0,
+      "title": "Required Assets",
+      "type": "integer"
+    },
+    "high_priority_actions": {
+      "items": {
+        "type": "string"
+      },
+      "title": "High Priority Actions",
+      "type": "array"
+    },
+    "production_risks": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Production Risks",
+      "type": "array"
+    }
+  },
+  "required": [
+    "total_assets",
+    "required_assets"
+  ],
+  "title": "ProductionSummaryArtifact",
+  "type": "object"
+}

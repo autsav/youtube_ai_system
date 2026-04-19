@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import json
+
 from app.llm.base import LLMClient
 from app.modules.base import PipelineModule
 from app.prompts.module_prompts import build_voice_user_prompt, load_voice_system_prompt
@@ -45,6 +47,13 @@ class VoiceoverModule(PipelineModule):
                     stage_name=self.name,
                     raw_text=capture.raw_text,
                     parsed_json=capture.parsed_json,
+                    validated_model=validated,
+                )
+            else:
+                self.last_llm_artifacts = LLMStageArtifacts(
+                    stage_name=self.name,
+                    raw_text=json.dumps(payload, ensure_ascii=False),
+                    parsed_json=payload,
                     validated_model=validated,
                 )
             return validated

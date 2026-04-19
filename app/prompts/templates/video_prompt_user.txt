@@ -1,0 +1,49 @@
+Create a structured video prompt package for AI video generation.
+
+## Input Context
+
+Channel Brief:
+{{brief_json}}
+
+Selected Concept:
+{{selected_concept_json}}
+
+Script Package:
+{{script_json}}
+
+## Instructions
+
+Generate a VideoPromptArtifact containing:
+
+1. **Global Visual Rules** - Technical specifications:
+   - aspect_ratio: "16:9" (standard)
+   - quality_target: "4K cinematic"
+   - frame_rate: "24fps"
+   - visual_style: Match the channel brief's visual_style
+   - continuity_notes: Guidance for maintaining visual consistency
+
+2. **Scene Prompts** - Turn each script segment into 1-3 visual scenes:
+   - Hook segments: Create 2 scenes (establishing shot + intense close-up)
+   - Middle segments: Create 1-2 scenes depending on complexity
+   - Payoff/ending segments: Create 1 strong resolution scene
+
+Each scene must include:
+- scene_id: "scene_001", "scene_002", etc.
+- related_segment_id: Link to the source script segment
+- start_sec/end_sec: Timing from the script segment
+- scene_goal: Purpose of this visual
+- prompt: Rich cinematic description (100-200 words) with style keywords
+- camera_direction: Specific camera work
+- lighting: Lighting setup description
+- action: Subject movement
+- environment: Setting description
+- negative_prompt: What to avoid
+- audio_suggestion: Sound/music direction
+- priority: "required", "recommended", or "optional"
+- transition_in/out: How scenes connect
+- subject_description: Key visual elements
+- continuity_notes: Connection to previous/next scenes
+
+Style the prompts for cinematic AI video generation with keywords like: "cinematic lighting", "shallow depth of field", "professional color grading", "stable camera", "high quality", "4K", "film grain".
+
+Return ONLY valid JSON matching the VideoPromptArtifact schema.

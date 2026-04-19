@@ -163,63 +163,78 @@ def test_mocked_end_to_end_concept_pipeline(tmp_path, monkeypatch):
             "payoff_strategy": "Resolve with ranked winner and practical next step."
         },
     }
-    voice_payload = {
-        "voice_style": "high-energy but analytical with clean conversational delivery",
-        "music_direction": "modern cinematic pulse with subtle tech texture",
-        "sfx_cues": [
-            {"time_sec": 3, "cue": "subtle impact hit", "purpose": "signal opening hook"},
-            {"time_sec": 120, "cue": "short riser", "purpose": "mark first re-engagement"},
-            {"time_sec": 580, "cue": "resolve swell", "purpose": "support closing CTA"},
-        ],
-        "voiceover_segments": [
+    video_prompt_payload = {
+        "video_title": "Title 3A",
+        "style_direction": "cinematic tech documentary",
+        "global_visual_rules": {
+            "aspect_ratio": "16:9",
+            "quality_target": "4K cinematic",
+            "frame_rate": "24fps",
+            "visual_style": "cinematic tech documentary",
+            "continuity_notes": "Maintain consistent lighting and color grading throughout. Use #00FF66 accent color.",
+        },
+        "scene_prompts": [
             {
-                "segment_id": "seg_01",
-                "vo_text": "Hook 3 with a concrete stake and surprise.",
-                "emotion": "high curiosity",
-                "pace": "fast",
-                "emphasis_words": ["Hook", "concrete", "surprise"],
-                "breath_points": [8, 18],
-                "timing_notes": "Punch the opener and pause before the consequence.",
+                "scene_id": "scene_001",
+                "related_segment_id": "seg_01",
+                "start_sec": 0,
+                "end_sec": 15,
+                "scene_goal": "Establish creator and stakes",
+                "prompt": "Cinematic wide shot of creator in modern studio, confident posture, subtle motion blur on background, shallow depth of field. Tech documentary aesthetic with neon green accent lighting.",
+                "camera_direction": "Wide establishing shot, slow push-in",
+                "lighting": "Soft key light with rim lighting, high contrast",
+                "action": "Creator steps forward, gestures toward camera",
+                "environment": "Clean studio with tech-themed background",
+                "negative_prompt": "blurry, low quality, amateur, shaky",
+                "audio_suggestion": "Uplifting cinematic score with tech ambience",
+                "priority": "required",
+                "transition_in": "fade in",
+                "transition_out": "match cut",
+                "subject_description": "Creator, 30s, professional, high energy",
+                "continuity_notes": "Establish visual tone for entire video",
             },
             {
-                "segment_id": "seg_02",
-                "vo_text": "Here are the rules, the deadline, and what success means.",
-                "emotion": "tension",
-                "pace": "medium",
-                "emphasis_words": ["rules", "deadline", "success"],
-                "breath_points": [30, 60],
-                "timing_notes": "Keep cadence crisp to preserve momentum.",
+                "scene_id": "scene_002",
+                "related_segment_id": "seg_01",
+                "start_sec": 15,
+                "end_sec": 30,
+                "scene_goal": "Intense hook delivery",
+                "prompt": "Medium close-up creator face, intense eye contact, dynamic shadows, cinematic grading with lifted blacks. Emotional intensity matching high curiosity.",
+                "camera_direction": "Medium close-up, slight handheld texture",
+                "lighting": "Dramatic side lighting, high contrast",
+                "action": "Creator delivers hook line with hand gesture",
+                "environment": "Same studio, tighter framing",
+                "negative_prompt": "flat lighting, boring composition",
+                "audio_suggestion": "Beat drop, silence for impact",
+                "priority": "required",
+                "transition_in": "match cut",
+                "transition_out": "hard cut",
+                "subject_description": "Creator face, expressive, engaged",
+                "continuity_notes": "Match eyeline from previous shot",
             },
             {
-                "segment_id": "seg_03",
-                "vo_text": "The early setup looked easy until the first real failure appeared.",
-                "emotion": "surprise",
-                "pace": "medium",
-                "emphasis_words": ["easy", "failure"],
-                "breath_points": [50, 110],
-                "timing_notes": "Increase intensity at the reversal line.",
-            },
-            {
-                "segment_id": "seg_04",
-                "vo_text": "The clock got tighter, and every shortcut created a new tradeoff.",
-                "emotion": "pressure",
-                "pace": "medium",
-                "emphasis_words": ["clock", "shortcut", "tradeoff"],
-                "breath_points": [70, 140],
-                "timing_notes": "Slightly quicken pace into each new tradeoff.",
-            },
-            {
-                "segment_id": "seg_05",
-                "vo_text": "Here is what actually worked, what failed, and what I would reuse.",
-                "emotion": "resolution",
-                "pace": "medium",
-                "emphasis_words": ["worked", "failed", "reuse"],
-                "breath_points": [20, 45],
-                "timing_notes": "Slow down on the final recommendation.",
+                "scene_id": "scene_003",
+                "related_segment_id": "seg_05",
+                "start_sec": 540,
+                "end_sec": 600,
+                "scene_goal": "Payoff reveal",
+                "prompt": "Hero shot of final result, cinematic lighting, tech documentary aesthetic. Satisfying resolution imagery with brand color accents.",
+                "camera_direction": "Dramatic low angle, slow push-out",
+                "lighting": "Cinematic three-point lighting, warm tones",
+                "action": "Slow reveal of final outcome",
+                "environment": "Clean, aspirational tech setting",
+                "negative_prompt": "cluttered, messy, unprofessional",
+                "audio_suggestion": "Triumphant resolution score",
+                "priority": "required",
+                "transition_in": "fade up",
+                "transition_out": "fade out",
+                "subject_description": "Final result, achievement",
+                "continuity_notes": "Visual payoff matching hook promise",
             },
         ],
     }
-    fake_llm = FakeLLMClient([trend_payload, concept_payload, script_payload, voice_payload])
+    # New simplified pipeline: trend -> concept -> script -> video_prompt
+    fake_llm = FakeLLMClient([trend_payload, concept_payload, script_payload, video_prompt_payload])
 
     monkeypatch.setattr("app.orchestrator.create_llm_client", lambda settings: fake_llm)
 
@@ -235,12 +250,13 @@ def test_mocked_end_to_end_concept_pipeline(tmp_path, monkeypatch):
     assert (output_dir / "02_concepts.json").exists()
     assert (output_dir / "03_selected_concept.json").exists()
     assert (output_dir / "04_script.json").exists()
-    assert (output_dir / "05_voiceover.json").exists()
-    assert (output_dir / "06_final_package.json").exists()
-    assert (output_dir / "07_script_voice_package.json").exists()
-    assert (output_dir / "08_concept_package.json").exists()
+    assert (output_dir / "05_video_prompts.json").exists()
+    assert (output_dir / "final_package.json").exists()
     assert package.script.video_title == "Title 3A"
+    assert package.video_prompts.video_title == "Title 3A"
+    assert len(package.video_prompts.scene_prompts) >= 3  # At least one scene per script segment
+    assert package.video_prompts.global_visual_rules.aspect_ratio == "16:9"
     assert (output_dir / "_artifacts" / "trend" / "trend.latest.raw.txt").exists()
     assert (output_dir / "_artifacts" / "concept" / "concept.latest.validated.json").exists()
     assert (output_dir / "_artifacts" / "script" / "script.latest.validated.json").exists()
-    assert (output_dir / "_artifacts" / "voiceover" / "voiceover.latest.validated.json").exists()
+    assert (output_dir / "_artifacts" / "video_prompt" / "video_prompt.latest.validated.json").exists()

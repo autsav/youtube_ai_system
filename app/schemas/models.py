@@ -170,25 +170,103 @@ class VoiceoverArtifact(BaseModel):
     voiceover_segments: list[VoiceoverSegment] = Field(default_factory=list)
 
 
-class Shot(BaseModel):
+class StoryboardShot(BaseModel):
     shot_id: str
-    duration_sec: float
-    type: Literal["A-roll", "AI_BROLL", "STOCK", "SCREEN_CAPTURE"]
+    start_sec: int = Field(ge=0)
+    end_sec: int = Field(gt=0)
+    duration_sec: float = Field(gt=0)
+    shot_type: Literal["A_ROLL", "B_ROLL", "SCREEN_CAPTURE", "AI_BROLL", "STOCK", "GRAPHIC"]
+    camera_view: str
     description: str
+    subject: str
+    location: str
+    motion: str
     on_screen_text: str = ""
-    transition: str = "hard cut"
+    transition_in: str = "hard cut"
+    transition_out: str = "hard cut"
     sound_design: str = ""
+    asset_type: Literal[
+        "RECORDED_A_ROLL",
+        "RECORDED_B_ROLL",
+        "SCREEN_CAPTURE",
+        "AI_GENERATED",
+        "STOCK_LICENSED",
+        "GRAPHIC_TEMPLATE",
+    ]
+    priority: Literal["required", "recommended", "optional"]
 
 
 class StoryboardSegment(BaseModel):
     segment_id: str
-    shots: list[Shot] = Field(default_factory=list)
+    start_sec: int = Field(ge=0)
+    end_sec: int = Field(gt=0)
+    segment_goal: str
+    emotional_beat: str
+    visual_strategy: str
+    attention_reset: str
+    shots: list[StoryboardShot] = Field(default_factory=list, min_length=1)
 
 
 class StoryboardArtifact(BaseModel):
-    segments: list[StoryboardSegment] = Field(default_factory=list)
-    estimated_total_shots: int
-    editing_rhythm: dict[str, str] = Field(default_factory=dict)
+    video_title: str
+    style_direction: str
+    editing_rhythm: str
+    energy_map: list[str] = Field(default_factory=list)
+    segments: list[StoryboardSegment] = Field(default_factory=list, min_length=1)
+
+
+class TimelineBlock(BaseModel):
+    block_id: str
+    start_sec: int = Field(ge=0)
+    end_sec: int = Field(gt=0)
+    purpose: str
+    pace: str
+    visual_density: str
+    primary_assets: list[str] = Field(default_factory=list)
+    notes: str
+
+
+class QuickBrollIdea(BaseModel):
+    idea_id: str
+    description: str
+    intended_segment_id: str
+    suggested_asset_type: Literal["B_ROLL", "AI_BROLL", "STOCK", "SCREEN_CAPTURE", "GRAPHIC"]
+    why_it_helps: str
+
+
+class AssetRequirement(BaseModel):
+    asset_id: str
+    related_shot_id: str
+    asset_type: Literal[
+        "RECORDED_A_ROLL",
+        "RECORDED_B_ROLL",
+        "SCREEN_CAPTURE",
+        "AI_GENERATED",
+        "STOCK_LICENSED",
+        "GRAPHIC_TEMPLATE",
+    ]
+    description: str
+    source_preference: str
+    status: Literal["pending", "in_progress", "ready", "blocked"]
+
+
+class ShotPlanArtifact(BaseModel):
+    estimated_total_shots: int = Field(ge=0)
+    estimated_a_roll_shots: int = Field(ge=0)
+    estimated_b_roll_shots: int = Field(ge=0)
+    estimated_ai_shots: int = Field(ge=0)
+    estimated_stock_shots: int = Field(ge=0)
+    production_notes: list[str] = Field(default_factory=list)
+    timeline_blocks: list[TimelineBlock] = Field(default_factory=list)
+    quick_broll_ideas: list[QuickBrollIdea] = Field(default_factory=list)
+    asset_requirements: list[AssetRequirement] = Field(default_factory=list)
+
+
+class ProductionSummaryArtifact(BaseModel):
+    total_assets: int = Field(ge=0)
+    required_assets: int = Field(ge=0)
+    high_priority_actions: list[str] = Field(default_factory=list)
+    production_risks: list[str] = Field(default_factory=list)
 
 
 class KlingJob(BaseModel):
@@ -238,6 +316,9 @@ class ConceptPackage(BaseModel):
     selected_concept: SelectedConcept
     script: ScriptArtifact
     voiceover: VoiceoverArtifact
+    storyboard: StoryboardArtifact
+    shot_plan: ShotPlanArtifact
+    production_summary: ProductionSummaryArtifact
 
 
 class ScriptVoicePackage(BaseModel):
@@ -250,9 +331,11 @@ class ScriptVoicePackage(BaseModel):
 
 class FinalPackage(BaseModel):
     project_name: str
+    trend_report: TrendReport
+    concepts: ConceptBatch
     selected_concept: SelectedConcept
     script: ScriptArtifact
-    voiceover: VoiceoverArtifact
+    video_prompts: VideoPromptArtifact
 
 
 class PublishPack(BaseModel):
@@ -265,3 +348,59 @@ class PublishPack(BaseModel):
     kling: KlingArtifact
     thumbnails: ThumbnailArtifact
     metadata: MetadataArtifact
+
+
+class GlobalVisualRules(BaseModel):
+    aspect_ratio: str
+    quality_target: str
+    frame_rate: str
+    visual_style: str
+    continuity_notes: str
+
+
+class ScenePrompt(BaseModel):
+    scene_id: str
+    related_segment_id: str
+    start_sec: float = Field(ge=0)
+    end_sec: float = Field(gt=0)
+    scene_goal: str
+    prompt: str
+    camera_direction: str
+    lighting: str
+    action: str
+    environment: str
+    negative_prompt: str
+    audio_suggestion: str
+    priority: Literal["required", "recommended", "optional"]
+    transition_in: str | None = None
+    transition_out: str | None = None
+    subject_description: str | None = None
+    continuity_notes: str | None = None
+
+    @model_validator(mode="after")
+    def validate_timing(self) -> "ScenePrompt":
+        if self.end_sec <= self.start_sec:
+            raise ValueError(f"end_sec ({self.end_sec}) must be greater than start_sec ({self.start_sec})")
+        return self
+
+
+class VideoPromptArtifact(BaseModel):
+    video_title: str
+    style_direction: str
+    global_visual_rules: GlobalVisualRules
+    scene_prompts: list[ScenePrompt] = Field(default_factory=list, min_length=1)
+
+    @model_validator(mode="after")
+    def validate_scene_order(self) -> "VideoPromptArtifact":
+        if len(self.scene_prompts) > 1:
+            for i in range(len(self.scene_prompts) - 1):
+                if self.scene_prompts[i].start_sec > self.scene_prompts[i + 1].start_sec:
+                    raise ValueError("Scene prompts must be sorted by start_sec")
+        return self
+
+    @model_validator(mode="after")
+    def validate_unique_scene_ids(self) -> "VideoPromptArtifact":
+        scene_ids = [scene.scene_id for scene in self.scene_prompts]
+        if len(set(scene_ids)) != len(scene_ids):
+            raise ValueError("Scene IDs must be unique")
+        return self

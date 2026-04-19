@@ -2,7 +2,15 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from app.schemas.models import ChannelBrief, ConceptBatch, ScriptArtifact, SelectedConcept, TrendReport
+from app.schemas.models import (
+    ChannelBrief,
+    ConceptBatch,
+    ScriptArtifact,
+    SelectedConcept,
+    StoryboardArtifact,
+    TrendReport,
+    VoiceoverArtifact,
+)
 from app.utils.json_tools import pretty_json
 from app.utils.prompt_loader import load_prompt_template
 
@@ -84,5 +92,55 @@ def build_voice_user_prompt(*, brief: ChannelBrief, script: ScriptArtifact) -> s
     return load_prompt_template(
         _TEMPLATE_DIR / "voice_user.txt",
         brief_json=pretty_json(brief.model_dump(mode="json")),
+        script_json=pretty_json(script.model_dump(mode="json")),
+    )
+
+
+def load_storyboard_system_prompt() -> str:
+    return load_prompt_template(_TEMPLATE_DIR / "storyboard_system.txt")
+
+
+def build_storyboard_user_prompt(
+    *,
+    brief: ChannelBrief,
+    selected_concept: SelectedConcept,
+    script: ScriptArtifact,
+    voiceover: VoiceoverArtifact,
+) -> str:
+    return load_prompt_template(
+        _TEMPLATE_DIR / "storyboard_user.txt",
+        brief_json=pretty_json(brief.model_dump(mode="json")),
+        selected_concept_json=pretty_json(selected_concept.model_dump(mode="json")),
+        script_json=pretty_json(script.model_dump(mode="json")),
+        voiceover_json=pretty_json(voiceover.model_dump(mode="json")),
+    )
+
+
+def load_shot_plan_system_prompt() -> str:
+    return load_prompt_template(_TEMPLATE_DIR / "shot_plan_system.txt")
+
+
+def build_shot_plan_user_prompt(*, brief: ChannelBrief, storyboard: StoryboardArtifact) -> str:
+    return load_prompt_template(
+        _TEMPLATE_DIR / "shot_plan_user.txt",
+        brief_json=pretty_json(brief.model_dump(mode="json")),
+        storyboard_json=pretty_json(storyboard.model_dump(mode="json")),
+    )
+
+
+def load_video_prompt_system_prompt() -> str:
+    return load_prompt_template(_TEMPLATE_DIR / "video_prompt_system.txt")
+
+
+def build_video_prompt_user_prompt(
+    *,
+    brief: ChannelBrief,
+    selected_concept: SelectedConcept,
+    script: ScriptArtifact,
+) -> str:
+    return load_prompt_template(
+        _TEMPLATE_DIR / "video_prompt_user.txt",
+        brief_json=pretty_json(brief.model_dump(mode="json")),
+        selected_concept_json=pretty_json(selected_concept.model_dump(mode="json")),
         script_json=pretty_json(script.model_dump(mode="json")),
     )

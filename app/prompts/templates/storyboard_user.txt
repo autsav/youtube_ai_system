@@ -1,0 +1,21 @@
+Create a production-ready storyboard package from these inputs.
+Output JSON only.
+
+Requirements:
+- Preserve script and voiceover pacing logic
+- Build per-segment visual strategy and multiple concrete shots
+- Include transitions, sound design, on-screen text where useful
+- Use realistic recording/stock/AI asset mix
+- Keep segment and shot timing coherent
+
+Channel brief JSON:
+{brief_json}
+
+Selected concept JSON:
+{selected_concept_json}
+
+Script package JSON:
+{script_json}
+
+Voiceover package JSON:
+{voiceover_json}

@@ -522,78 +522,40 @@
       "title": "SelectedConcept",
       "type": "object"
     },
-    "Shot": {
-      "properties": {
-        "shot_id": {
-          "title": "Shot Id",
-          "type": "string"
-        },
-        "duration_sec": {
-          "title": "Duration Sec",
-          "type": "number"
-        },
-        "type": {
-          "enum": [
-            "A-roll",
-            "AI_BROLL",
-            "STOCK",
-            "SCREEN_CAPTURE"
-          ],
-          "title": "Type",
-          "type": "string"
-        },
-        "description": {
-          "title": "Description",
-          "type": "string"
-        },
-        "on_screen_text": {
-          "default": "",
-          "title": "On Screen Text",
-          "type": "string"
-        },
-        "transition": {
-          "default": "hard cut",
-          "title": "Transition",
-          "type": "string"
-        },
-        "sound_design": {
-          "default": "",
-          "title": "Sound Design",
-          "type": "string"
-        }
-      },
-      "required": [
-        "shot_id",
-        "duration_sec",
-        "type",
-        "description"
-      ],
-      "title": "Shot",
-      "type": "object"
-    },
     "StoryboardArtifact": {
       "properties": {
+        "video_title": {
+          "title": "Video Title",
+          "type": "string"
+        },
+        "style_direction": {
+          "title": "Style Direction",
+          "type": "string"
+        },
+        "editing_rhythm": {
+          "title": "Editing Rhythm",
+          "type": "string"
+        },
+        "energy_map": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Energy Map",
+          "type": "array"
+        },
         "segments": {
           "items": {
             "$ref": "#/$defs/StoryboardSegment"
           },
+          "minItems": 1,
           "title": "Segments",
           "type": "array"
-        },
-        "estimated_total_shots": {
-          "title": "Estimated Total Shots",
-          "type": "integer"
-        },
-        "editing_rhythm": {
-          "additionalProperties": {
-            "type": "string"
-          },
-          "title": "Editing Rhythm",
-          "type": "object"
         }
       },
       "required": [
-        "estimated_total_shots"
+        "video_title",
+        "style_direction",
+        "editing_rhythm"
       ],
       "title": "StoryboardArtifact",
       "type": "object"
@@ -604,18 +566,163 @@
           "title": "Segment Id",
           "type": "string"
         },
+        "start_sec": {
+          "minimum": 0,
+          "title": "Start Sec",
+          "type": "integer"
+        },
+        "end_sec": {
+          "exclusiveMinimum": 0,
+          "title": "End Sec",
+          "type": "integer"
+        },
+        "segment_goal": {
+          "title": "Segment Goal",
+          "type": "string"
+        },
+        "emotional_beat": {
+          "title": "Emotional Beat",
+          "type": "string"
+        },
+        "visual_strategy": {
+          "title": "Visual Strategy",
+          "type": "string"
+        },
+        "attention_reset": {
+          "title": "Attention Reset",
+          "type": "string"
+        },
         "shots": {
           "items": {
-            "$ref": "#/$defs/Shot"
+            "$ref": "#/$defs/StoryboardShot"
           },
+          "minItems": 1,
           "title": "Shots",
           "type": "array"
         }
       },
       "required": [
-        "segment_id"
+        "segment_id",
+        "start_sec",
+        "end_sec",
+        "segment_goal",
+        "emotional_beat",
+        "visual_strategy",
+        "attention_reset"
       ],
       "title": "StoryboardSegment",
+      "type": "object"
+    },
+    "StoryboardShot": {
+      "properties": {
+        "shot_id": {
+          "title": "Shot Id",
+          "type": "string"
+        },
+        "start_sec": {
+          "minimum": 0,
+          "title": "Start Sec",
+          "type": "integer"
+        },
+        "end_sec": {
+          "exclusiveMinimum": 0,
+          "title": "End Sec",
+          "type": "integer"
+        },
+        "duration_sec": {
+          "exclusiveMinimum": 0,
+          "title": "Duration Sec",
+          "type": "number"
+        },
+        "shot_type": {
+          "enum": [
+            "A_ROLL",
+            "B_ROLL",
+            "SCREEN_CAPTURE",
+            "AI_BROLL",
+            "STOCK",
+            "GRAPHIC"
+          ],
+          "title": "Shot Type",
+          "type": "string"
+        },
+        "camera_view": {
+          "title": "Camera View",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "subject": {
+          "title": "Subject",
+          "type": "string"
+        },
+        "location": {
+          "title": "Location",
+          "type": "string"
+        },
+        "motion": {
+          "title": "Motion",
+          "type": "string"
+        },
+        "on_screen_text": {
+          "default": "",
+          "title": "On Screen Text",
+          "type": "string"
+        },
+        "transition_in": {
+          "default": "hard cut",
+          "title": "Transition In",
+          "type": "string"
+        },
+        "transition_out": {
+          "default": "hard cut",
+          "title": "Transition Out",
+          "type": "string"
+        },
+        "sound_design": {
+          "default": "",
+          "title": "Sound Design",
+          "type": "string"
+        },
+        "asset_type": {
+          "enum": [
+            "RECORDED_A_ROLL",
+            "RECORDED_B_ROLL",
+            "SCREEN_CAPTURE",
+            "AI_GENERATED",
+            "STOCK_LICENSED",
+            "GRAPHIC_TEMPLATE"
+          ],
+          "title": "Asset Type",
+          "type": "string"
+        },
+        "priority": {
+          "enum": [
+            "required",
+            "recommended",
+            "optional"
+          ],
+          "title": "Priority",
+          "type": "string"
+        }
+      },
+      "required": [
+        "shot_id",
+        "start_sec",
+        "end_sec",
+        "duration_sec",
+        "shot_type",
+        "camera_view",
+        "description",
+        "subject",
+        "location",
+        "motion",
+        "asset_type",
+        "priority"
+      ],
+      "title": "StoryboardShot",
       "type": "object"
     },
     "ThumbnailArtifact": {
