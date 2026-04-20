@@ -77,11 +77,36 @@ class ScriptModule(PipelineModule):
 
         title = selected.winner.title_options[0]
         target_sec = brief.target_length_min * 60
+
+        # Calculate segment boundaries that fit within target duration
+        # Distribute 5 segments across target time, leaving room for each
+        # seg_05 needs at least 30s, so seg_04 must end before target_sec - 30
+
+        # Proportional allocation based on target duration
+        seg_01_end = min(45, target_sec // 5)
+        seg_02_end = min(150, (target_sec * 2) // 5)
+        seg_03_end = min(300, (target_sec * 3) // 5)
+        seg_04_end = min(target_sec - 30, (target_sec * 4) // 5)
+
+        # Ensure minimum segment durations and proper ordering
+        if seg_01_end < 20:
+            seg_01_end = 20
+        if seg_02_end < seg_01_end + 20:
+            seg_02_end = seg_01_end + 20
+        if seg_03_end < seg_02_end + 20:
+            seg_03_end = seg_02_end + 20
+        if seg_04_end < seg_03_end + 20:
+            seg_04_end = seg_03_end + 20
+
+        # Final safety check: seg_04 must leave room for seg_05
+        if seg_04_end >= target_sec - 10:
+            seg_04_end = max(seg_03_end + 10, target_sec - 30)
+
         segments = [
             ScriptSegment(
                 segment_id="seg_01",
                 start_sec=0,
-                end_sec=45,
+                end_sec=seg_01_end,
                 purpose="hook and promise",
                 spoken_script=selected.winner.hook_script,
                 retention_device="curiosity gap",
@@ -92,8 +117,8 @@ class ScriptModule(PipelineModule):
             ),
             ScriptSegment(
                 segment_id="seg_02",
-                start_sec=45,
-                end_sec=150,
+                start_sec=seg_01_end,
+                end_sec=seg_02_end,
                 purpose="setup and rules",
                 spoken_script="Here are the constraints, what success means, and how I will measure what actually works.",
                 retention_device="challenge framing",
@@ -104,8 +129,8 @@ class ScriptModule(PipelineModule):
             ),
             ScriptSegment(
                 segment_id="seg_03",
-                start_sec=150,
-                end_sec=300,
+                start_sec=seg_02_end,
+                end_sec=seg_03_end,
                 purpose="first test block and setback",
                 spoken_script="The first pass looked strong, then one hidden failure almost broke the entire concept.",
                 retention_device="surprise turn",
@@ -116,8 +141,8 @@ class ScriptModule(PipelineModule):
             ),
             ScriptSegment(
                 segment_id="seg_04",
-                start_sec=300,
-                end_sec=495,
+                start_sec=seg_03_end,
+                end_sec=seg_04_end,
                 purpose="escalation and comparison",
                 spoken_script="Now I compare the options head-to-head on speed, output quality, and production friction.",
                 retention_device="comparison ladder",
@@ -128,7 +153,7 @@ class ScriptModule(PipelineModule):
             ),
             ScriptSegment(
                 segment_id="seg_05",
-                start_sec=495,
+                start_sec=seg_04_end,
                 end_sec=target_sec,
                 purpose="payoff and recommendation",
                 spoken_script="Here is the setup I would actually run next week, who it is for, and what to avoid.",
